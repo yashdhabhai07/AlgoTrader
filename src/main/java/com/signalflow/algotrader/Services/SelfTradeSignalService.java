@@ -37,6 +37,14 @@ public class SelfTradeSignalService implements TradeSignalService {
         return tradeSignalRepo.findTradeSignalById(id)
                 .orElseThrow(() -> new TradeSignalNotFoundException("Trade signal with id " + id + " not found"));
     }
-
-
+    @Override
+    public TradeSignal updateSignal(Long id, TradeSignal updatedSignal) {
+        TradeSignal savedSignal = tradeSignalRepo.findTradeSignalById(id)
+                .orElseThrow( () -> new TradeSignalNotFoundException("TradeSignal not found with id: " + id ));
+        savedSignal.setSignalDate(updatedSignal.getSignalDate());
+        savedSignal.setSignalType(updatedSignal.getSignalType());
+        savedSignal.setQuantity(updatedSignal.getQuantity());
+        savedSignal.setPrice(updatedSignal.getPrice());
+        return tradeSignalRepo.save(savedSignal);
+    }
 }

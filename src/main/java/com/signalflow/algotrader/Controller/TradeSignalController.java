@@ -4,6 +4,7 @@ import com.signalflow.algotrader.Models.TradeSignal;
 import com.signalflow.algotrader.Services.TradeSignalService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -17,7 +18,7 @@ public class    TradeSignalController {
         this.tradeSignalService = tradeSignalService;
     }
     @PostMapping("/create")
-    public ResponseEntity<TradeSignal> createSignal(@RequestBody TradeSignal signal) {
+    public ResponseEntity<TradeSignal> createSignal(@RequestBody @Validated TradeSignal signal) {
         signal.setSignalDate(LocalDateTime.now());
         TradeSignal savedSignal = tradeSignalService.saveSignal(signal);
         return new ResponseEntity<>(savedSignal, HttpStatus.CREATED);
@@ -35,5 +36,11 @@ public class    TradeSignalController {
     @DeleteMapping("/{id}")
     public void deleteTradeSignal(@PathVariable("id") Long Id){
         tradeSignalService.deleteSignalById(Id);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<TradeSignal> updateSignal(@PathVariable Long id ,@RequestBody TradeSignal updatedSignal) {
+        TradeSignal newSignal = tradeSignalService.updateSignal(id, updatedSignal);
+        return new ResponseEntity<>(newSignal, HttpStatus.OK);
     }
 }

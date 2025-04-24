@@ -11,4 +11,5 @@ public interface TradeSignalService {
     List<TradeSignal> getAllSignals();
     void deleteSignalById(Long id);
     TradeSignal findSignalById(Long id) throws TradeSignalNotFoundException;
+    TradeSignal updateSignal(Long id, TradeSignal updatedSignal) throws TradeSignalNotFoundException;
 }
